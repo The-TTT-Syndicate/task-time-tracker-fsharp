@@ -15,7 +15,7 @@ A simple time-tracking tool. Works fine on Windows, but on macOS... not so much.
 
 This project was an attempt to create a UI using F#. I have to say, it has been a truly terrible and frustrating experience. While I did manage to put together a basic application, it was far from easy.
 
-Back when we were just starting to learn programming in our first semester of IT studies, we could build similar UIs effortlessly using Windows.Forms and a GUI editor in Visual Studio. It was simple and straightforward. Now, making a UI feels like pure suffering.
+Back in the early 2000s, when we were just starting to learn programming in our first semester of IT studies, we could build similar UIs effortlessly using Windows.Forms and a GUI editor in Visual Studio. It was simple and straightforward. Now, making a UI feels like pure suffering.
 
 ## Contribution
 
