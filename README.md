@@ -3,7 +3,7 @@
 ![GitHub License](https://img.shields.io/github/license/The-TTT-Syndicate/task-time-tracker-fsharp)
 ![GitHub Created At](https://img.shields.io/github/created-at/The-TTT-Syndicate/task-time-tracker-fsharp)
 ![GitHub forks](https://img.shields.io/github/forks/The-TTT-Syndicate/task-time-tracker-fsharp)
-![GitHub Repo stars](https://img.shields.io/github/The-TTT-Syndicate/task-time-tracker-fsharp)
+![GitHub Repo stars](https://img.shields.io/github/stars/The-TTT-Syndicate/task-time-tracker-fsharp)
 
 # Task Time Tracker in F#
 
