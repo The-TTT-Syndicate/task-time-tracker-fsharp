@@ -1,0 +1,85 @@
+name: .NET Build and Release
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    name: Build on Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Build for Windows
+        run: |
+          dotnet publish --runtime win-x64 -c Release -o "output/win-x64"
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: win-x64-artifact
+          path: output/win-x64/task-time-tracker.exe
+
+  build-macos:
+    name: Build on macOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Build for macOS
+        run: |
+          dotnet publish --runtime osx-arm64 -c Release -o "output/osx-arm64"
+
+      - name: Ad-hoc Code Signing
+        run: |
+          codesign --deep --force --verify --sign - output/osx-arm64/task-time-tracker
+
+      - name: Upload macOS Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: osx-arm64-artifact
+          path: output/osx-arm64/task-time-tracker
+
+  create-release:
+    name: Create GitHub Release and Upload Artifacts
+    runs-on: ubuntu-latest
+    needs: [build-windows, build-macos]
+    steps:
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: win-x64-artifact
+          path: output/win-x64/
+
+      - name: Download macOS Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: osx-arm64-artifact
+          path: output/osx-arm64/
+
+      - name: Create GitHub Release and Upload Artifacts
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "latest-${{ github.sha }}"
+          name: "Auto-release"
+          files: |
+            output/win-x64/task-time-tracker.exe
+            output/osx-arm64/task-time-tracker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
